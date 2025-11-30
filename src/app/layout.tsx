@@ -29,7 +29,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AudioProvider>
-          <main className="min-h-screen p-8 max-w-2xl mx-auto">
+          <main className="min-h-screen p-8 max-w-7xl mx-auto">
             {children}
           </main>
         </AudioProvider>

@@ -5,7 +5,7 @@ import R from "@/components/Ruby";
 
 export default function ExplanationPage() {
   return (
-    <div>
+    <div className="max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-6 text-center">
         <R rt="おと">音</R>のしくみ
       </h1>

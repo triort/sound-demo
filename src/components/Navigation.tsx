@@ -17,7 +17,7 @@ export default function Navigation({
   nextLabel = "つぎへ",
 }: NavigationProps) {
   return (
-    <div className="flex justify-between mt-8">
+    <div className="flex justify-between mt-8 max-w-2xl mx-auto">
       {prevHref ? (
         <Link
           href={prevHref}

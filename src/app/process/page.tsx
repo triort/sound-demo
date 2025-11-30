@@ -134,24 +134,26 @@ export default function ProcessPage() {
 
       {mode === "easy" ? (
         // かんたんモード
-        <div className="mb-8">
+        <div className="mb-8 max-w-4xl mx-auto">
           <p className="text-lg text-center mb-4">
             <R rt="す">好</R>きなボタンをおしてね
           </p>
-          <div className="grid grid-cols-1 gap-3">
+          <div className="grid grid-cols-1 gap-3 max-w-2xl mx-auto">
             {processTypes.map((type) => (
+
               <button
                 key={type}
                 onClick={() => handleProcess(type)}
                 disabled={isProcessing}
                 className={`px-6 py-4 text-lg rounded-lg text-white ${processedType === type
-                    ? "bg-orange-500"
-                    : "bg-blue-500"
+                  ? "bg-orange-500"
+                  : "bg-blue-500"
                   } disabled:opacity-50`}
               >
                 {processLabels[type]}
                 {processedType === type && " ✓"}
               </button>
+
             ))}
           </div>
         </div>
@@ -163,92 +165,97 @@ export default function ProcessPage() {
           </p>
 
           {/* スライダー群 */}
-          <div className="space-y-4 bg-gray-50 p-4 rounded-lg">
+          <div className="grid grid-cols-2 gap-16">
             <div>
-              <label className="block text-sm font-medium mb-1">
-                <R rt="こえ">声</R>の<R rt="たか">高</R>さ: {advancedParams.pitchShift > 0 ? "+" : ""}{advancedParams.pitchShift}
-              </label>
-              <input
-                type="range"
-                min="-50"
-                max="50"
-                value={advancedParams.pitchShift}
-                onChange={(e) => setAdvancedParams({ ...advancedParams, pitchShift: Number(e.target.value) })}
-                className="w-full"
-              />
-              <div className="flex justify-between text-xs text-gray-500">
-                <span><R rt="ひく">低</R>い</span>
-                <span><R rt="たか">高</R>い</span>
-              </div>
-            </div>
+              <div className="space-y-4 bg-gray-50 p-4 rounded-lg">
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    <R rt="こえ">声</R>の<R rt="たか">高</R>さ: {advancedParams.pitchShift > 0 ? "+" : ""}{advancedParams.pitchShift}
+                  </label>
+                  <input
+                    type="range"
+                    min="-50"
+                    max="50"
+                    value={advancedParams.pitchShift}
+                    onChange={(e) => setAdvancedParams({ ...advancedParams, pitchShift: Number(e.target.value) })}
+                    className="w-full"
+                  />
+                  <div className="flex justify-between text-xs text-gray-500">
+                    <span><R rt="ひく">低</R>い</span>
+                    <span><R rt="たか">高</R>い</span>
+                  </div>
+                </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                <R rt="ていおん">低音</R>カット: {advancedParams.lowCutFreq}Hz
-              </label>
-              <input
-                type="range"
-                min="0"
-                max="2000"
-                step="50"
-                value={advancedParams.lowCutFreq}
-                onChange={(e) => setAdvancedParams({ ...advancedParams, lowCutFreq: Number(e.target.value) })}
-                className="w-full"
-              />
-              <div className="flex justify-between text-xs text-gray-500">
-                <span>なし</span>
-                <span><R rt="つよ">強</R>い</span>
-              </div>
-            </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    <R rt="ていおん">低音</R>カット: {advancedParams.lowCutFreq}Hz
+                  </label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="2000"
+                    step="50"
+                    value={advancedParams.lowCutFreq}
+                    onChange={(e) => setAdvancedParams({ ...advancedParams, lowCutFreq: Number(e.target.value) })}
+                    className="w-full"
+                  />
+                  <div className="flex justify-between text-xs text-gray-500">
+                    <span>なし</span>
+                    <span><R rt="つよ">強</R>い</span>
+                  </div>
+                </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                <R rt="こうおん">高音</R>カット: {advancedParams.highCutFreq}Hz
-              </label>
-              <input
-                type="range"
-                min="500"
-                max="8000"
-                step="100"
-                value={advancedParams.highCutFreq}
-                onChange={(e) => setAdvancedParams({ ...advancedParams, highCutFreq: Number(e.target.value) })}
-                className="w-full"
-              />
-              <div className="flex justify-between text-xs text-gray-500">
-                <span><R rt="つよ">強</R>い</span>
-                <span>なし</span>
-              </div>
-            </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    <R rt="こうおん">高音</R>カット: {advancedParams.highCutFreq}Hz
+                  </label>
+                  <input
+                    type="range"
+                    min="500"
+                    max="8000"
+                    step="100"
+                    value={advancedParams.highCutFreq}
+                    onChange={(e) => setAdvancedParams({ ...advancedParams, highCutFreq: Number(e.target.value) })}
+                    className="w-full"
+                  />
+                  <div className="flex justify-between text-xs text-gray-500">
+                    <span><R rt="つよ">強</R>い</span>
+                    <span>なし</span>
+                  </div>
+                </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                ロボット<R rt="こうか">効果</R>: {advancedParams.robotEffect}%
-              </label>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={advancedParams.robotEffect}
-                onChange={(e) => setAdvancedParams({ ...advancedParams, robotEffect: Number(e.target.value) })}
-                className="w-full"
-              />
-              <div className="flex justify-between text-xs text-gray-500">
-                <span>なし</span>
-                <span><R rt="つよ">強</R>い</span>
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    ロボット<R rt="こうか">効果</R>: {advancedParams.robotEffect}%
+                  </label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={advancedParams.robotEffect}
+                    onChange={(e) => setAdvancedParams({ ...advancedParams, robotEffect: Number(e.target.value) })}
+                    className="w-full"
+                  />
+                  <div className="flex justify-between text-xs text-gray-500">
+                    <span>なし</span>
+                    <span><R rt="つよ">強</R>い</span>
+                  </div>
+                </div>
               </div>
+
+              <button
+                onClick={handleAdvancedProcess}
+                disabled={isProcessing}
+                className="w-full px-6 py-4 text-lg rounded-lg text-white bg-purple-500 disabled:opacity-50"
+              >
+                <R rt="かこう">加工</R>する
+              </button>
+            </div>
+            <div>
+              {/* スペクトラム表示 */}
+              <Spectrum audioBlob={audioBlob} processedBlob={processedAudioBlob} />
             </div>
           </div>
-
-          <button
-            onClick={handleAdvancedProcess}
-            disabled={isProcessing}
-            className="w-full px-6 py-4 text-lg rounded-lg text-white bg-purple-500 disabled:opacity-50"
-          >
-            <R rt="かこう">加工</R>する
-          </button>
-
-          {/* スペクトラム表示 */}
-          <Spectrum audioBlob={audioBlob} processedBlob={processedAudioBlob} />
         </div>
       )}
 

@@ -4,7 +4,7 @@ import R from "@/components/Ruby";
 
 export default function SummaryPage() {
   return (
-    <div>
+    <div className="max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-6 text-center">まとめ</h1>
 
       <div className="bg-green-50 p-6 rounded-lg mb-8 text-gray-800">
