@@ -115,6 +115,46 @@ async function pitchShift(
   return await offlineContext.startRendering();
 }
 
+function normalizeAudioBuffer(audioBuffer: AudioBuffer, targetPeak: number = 0.9): AudioBuffer {
+  const numChannels = audioBuffer.numberOfChannels;
+  const length = audioBuffer.length;
+  const sampleRate = audioBuffer.sampleRate;
+
+  // 最大振幅を検出
+  let maxAmplitude = 0;
+  for (let ch = 0; ch < numChannels; ch++) {
+    const channelData = audioBuffer.getChannelData(ch);
+    for (let i = 0; i < length; i++) {
+      const absValue = Math.abs(channelData[i]);
+      if (absValue > maxAmplitude) {
+        maxAmplitude = absValue;
+      }
+    }
+  }
+
+  // 正規化が不要な場合はそのまま返す
+  if (maxAmplitude === 0 || maxAmplitude >= targetPeak * 0.95) {
+    return audioBuffer;
+  }
+
+  // 正規化係数を計算
+  const gain = targetPeak / maxAmplitude;
+
+  // 新しいバッファを作成して正規化
+  const audioContext = new OfflineAudioContext(numChannels, length, sampleRate);
+  const newBuffer = audioContext.createBuffer(numChannels, length, sampleRate);
+
+  for (let ch = 0; ch < numChannels; ch++) {
+    const inputData = audioBuffer.getChannelData(ch);
+    const outputData = newBuffer.getChannelData(ch);
+    for (let i = 0; i < length; i++) {
+      outputData[i] = inputData[i] * gain;
+    }
+  }
+
+  return newBuffer;
+}
+
 async function applyRobotEffect(audioBuffer: AudioBuffer): Promise<AudioBuffer> {
   const offlineContext = new OfflineAudioContext(
     audioBuffer.numberOfChannels,
@@ -189,6 +229,9 @@ export async function processAudio(
       processedBuffer = audioBuffer;
   }
 
+  // 音量を正規化
+  processedBuffer = normalizeAudioBuffer(processedBuffer);
+
   await audioContext.close();
   return audioBufferToWav(processedBuffer);
 }
@@ -240,6 +283,9 @@ export async function processAudioAdvanced(
   if (params.robotEffect > 0) {
     audioBuffer = await applyRobotEffectWithAmount(audioBuffer, params.robotEffect / 100);
   }
+
+  // 音量を正規化
+  audioBuffer = normalizeAudioBuffer(audioBuffer);
 
   await audioContext.close();
   return audioBufferToWav(audioBuffer);
